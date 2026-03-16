@@ -1,0 +1,31 @@
+workflows:
+  ios-release:
+    name: iOS Release
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    integrations:
+      app_store_connect: OpticostKI
+    environment:
+      groups:
+        - apple
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: de.schieder.meinestadt
+      xcode: latest
+    scripts:
+      - name: Set up code signing settings on Xcode project
+        script: |
+          xcode-project use-profiles --project "SchiederMeinestadt.xcodeproj"
+      - name: Build ipa for distribution
+        script: |
+          xcode-project build-ipa \
+            --project "SchiederMeinestadt.xcodeproj" \
+            --scheme "SchiederMeinestadt"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        submit_to_app_store: false
