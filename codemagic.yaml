@@ -29,3 +29,11 @@ workflows:
         auth: integration
         submit_to_testflight: true
         submit_to_app_store: false
+        beta_groups:
+          - App Store Connect Users
+        localized_app_info:
+          - language: de-DE
+            whats_new: Aktualisiertes App-Icon
+        localized_build_info:
+          - language: de-DE
+            whats_new: Aktualisiertes App-Icon
